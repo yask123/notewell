@@ -19,6 +19,8 @@ npm run typecheck
 DATABASE_URL=postgres://localhost/notewell npm run dev
 ```
 
+Reads are cached in Redis when `REDIS_URL` is set, and in memory when it isn't. See [docs/caching.md](docs/caching.md).
+
 ## What this repository is for
 
 Notewell is a demonstration codebase for [Tracer](https://yask.dev/tracer), a Mac app that draws a pull request as
