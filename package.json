@@ -1,0 +1,26 @@
+{
+  "name": "notewell",
+  "version": "0.4.0",
+  "private": true,
+  "description": "A small API for writing notes and sharing them with people you choose.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "@types/pg": "^8.11.5",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.5.0"
+  }
+}
