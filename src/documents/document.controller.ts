@@ -1,12 +1,16 @@
 import type { Request, Response } from "express";
 import { present } from "./document";
+import type { DocumentReader } from "./document-reader";
 import type { DocumentService } from "./document.service";
 
 export class DocumentController {
-  constructor(private readonly documents: DocumentService) {}
+  constructor(
+    private readonly documents: DocumentService,
+    private readonly reader: DocumentReader,
+  ) {}
 
   show = async (req: Request, res: Response) => {
-    const doc = await this.documents.get(req.user, req.params.id);
+    const doc = await this.reader.read(req.user, req.params.id);
     res.json(present(doc));
   };
 

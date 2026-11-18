@@ -5,6 +5,7 @@ import type { User } from "../src/auth/user";
 import { buildContainer } from "../src/container";
 import type { Document } from "../src/documents/document";
 import type { DocumentRepository } from "../src/documents/document.repository";
+import { MemoryKeyValue } from "../src/lib/key-value";
 
 export class MemoryDocuments implements DocumentRepository {
   private readonly rows = new Map<string, Document>();
@@ -56,7 +57,7 @@ export async function world() {
     updatedAt: "",
   });
 
-  const app = createApp(buildContainer({ documents, sessions }));
+  const app = createApp(buildContainer({ documents, sessions, keyValue: new MemoryKeyValue() }));
   const as = (who: keyof typeof tokens) => ({
     get: (path: string) => request(app).get(path).set("Authorization", `Bearer ${tokens[who]}`),
     patch: (path: string, body: object) => request(app).patch(path).set("Authorization", `Bearer ${tokens[who]}`).send(body),

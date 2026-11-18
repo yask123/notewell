@@ -1,9 +1,12 @@
 import type { User } from "../auth/user";
 import { Forbidden, NotFound } from "../errors";
+import type { Metrics } from "../lib/metrics";
 import type { Document } from "./document";
 
 /** Who may do what to a document. The only place these rules live. */
 export class AccessPolicy {
+  constructor(private readonly metrics: Metrics) {}
+
   canRead(user: User, doc: Document): boolean {
     return doc.ownerId === user.id || doc.sharedWith.includes(user.id);
   }
@@ -14,7 +17,10 @@ export class AccessPolicy {
 
   /** A document you can't read looks like one that doesn't exist. */
   assertCanRead(user: User, doc: Document): void {
-    if (!this.canRead(user, doc)) throw new NotFound("document");
+    if (!this.canRead(user, doc)) {
+      this.metrics.count("documents.read.denied");
+      throw new NotFound("document");
+    }
   }
 
   assertCanEdit(user: User, doc: Document): void {
